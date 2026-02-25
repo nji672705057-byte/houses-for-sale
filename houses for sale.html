@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Houses for Sale</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#f4f8ff}
+header{background:#0b3d91;color:white;padding:15px;text-align:center}
+nav{background:#062a63;padding:10px;text-align:center}
+nav a{color:white;margin:10px;text-decoration:none;font-weight:bold}
+.container{padding:30px}
+h2{color:#0b3d91}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+.card{background:white;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.15);overflow:hidden}
+.card img{width:100%;height:180px;object-fit:cover}
+.card-content{padding:15px}
+.price{color:#0b3d91;font-weight:bold;font-size:18px}
+button{background:#0b3d91;color:white;border:none;padding:10px 15px;margin-top:10px;border-radius:6px;cursor:pointer}
+button:hover{background:#062a63}
+.admin{background:white;padding:20px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+input,select{width:100%;padding:10px;margin:8px 0}
+footer{background:#0b3d91;color:white;text-align:center;padding:15px;margin-top:40px}
+</style>
+</head>
+<body>
+
+<header>
+<h1>🏠 HOUSES FOR SALE</h1>
+<p>Find your dream home today</p>
+</header>
+
+<nav>
+<a href="#luxury">Luxury Houses</a>
+<a href="#simple">Simple Houses</a>
+<a href="#admin">Admin Upload</a>
+</nav>
+
+<div class="container" id="admin">
+<h2>🔐 Admin Panel – Upload House</h2>
+<div class="admin">
+<input type="text" id="title" placeholder="House Title">
+<input type="text" id="desc" placeholder="Description">
+<input type="text" id="price" placeholder="Price e.g 25,000,000 FCFA">
+<input type="text" id="img" placeholder="Image URL (paste photo link)">
+<select id="type">
+<option value="luxury">Luxury House</option>
+<option value="simple">Simple House</option>
+</select>
+<button onclick="addHouse()">Upload House</button>
+</div>
+</div>
+
+<div class="container">
+<h2>✨ Luxury Houses</h2>
+<div class="cards" id="luxury"></div>
+</div>
+
+<div class="container">
+<h2>🏡 Simple Houses</h2>
+<div class="cards" id="simple"></div>
+</div>
+
+<footer>
+<p>© 2026 Houses for Sale</p>
+</footer>
+
+<script>
+function loadHouses(){
+let houses=JSON.parse(localStorage.getItem("houses")||"[]");
+document.getElementById("luxury").innerHTML="";
+document.getElementById("simple").innerHTML="";
+houses.forEach(h=>{
+let card=`
+<div class="card">
+<img src="${h.img}">
+<div class="card-content">
+<h3>${h.title}</h3>
+<p>${h.desc}</p>
+<p class="price">${h.price}</p>
+<button onclick="contact()">Contact Seller</button>
+</div>
+</div>`;
+document.getElementById(h.type).innerHTML+=card;
+});
+}
+
+function addHouse(){
+let h={
+title:document.getElementById("title").value,
+desc:document.getElementById("desc").value,
+price:document.getElementById("price").value,
+img:document.getElementById("img").value,
+type:document.getElementById("type").value
+};
+let houses=JSON.parse(localStorage.getItem("houses")||"[]");
+houses.push(h);
+localStorage.setItem("houses",JSON.stringify(houses));
+alert("House uploaded successfully!");
+loadHouses();
+}
+
+function contact(){
+alert("Add your WhatsApp number here later");
+}
+
+loadHouses();
+</script>
+</body>
+</html>
